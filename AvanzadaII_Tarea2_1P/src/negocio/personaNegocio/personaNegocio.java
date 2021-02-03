@@ -6,6 +6,7 @@
 package negocio.personaNegocio;
 
 import datos.persona.personaDatos;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import recursos.persona;
@@ -16,11 +17,22 @@ import recursos.persona;
  */
 public class personaNegocio {
 
+    public int codSecuencia() {
+        int salida = 0;
+        try {
+            salida = personaDatos.secuenciaCodPersona();
+        } catch (SQLException ex) {
+            System.err.println("error obtener secuencia" + ex.getMessage());
+        }
+
+        return salida;
+    }
+
     public List<persona> Leer() {
         List<persona> listaPersona = new ArrayList<>();
         try {
             listaPersona = personaDatos.LeerPersona();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("error Leer" + e.getMessage());
         }
         return listaPersona;
@@ -50,10 +62,13 @@ public class personaNegocio {
     }
 
     public String Actualizar(persona person) {
-        String respuesta = "Error";
+        String respuesta = "Error datos vacios";
         try {
             if (person.getNomPersona().isEmpty()) {
                 throw new Exception("Error Actualizar: El nombre no debe de estar vacio");
+            }
+            if (person.getCiudad().isEmpty()) {
+                throw new Exception("Error Actualizar: La ciudad no debe de estar vacio");
             }
             respuesta = personaDatos.ActualizaPersona(person);
         } catch (Exception e) {
