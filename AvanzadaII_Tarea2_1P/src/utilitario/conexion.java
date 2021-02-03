@@ -13,26 +13,26 @@ import java.sql.*;
  */
 public class conexion {
 
-    public void ObtenerConexion() {
-
+    public static Connection ObtenerConexion() {
+ Connection connection = null;
         try {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
             } catch (ClassNotFoundException ex) {
                 System.out.println("Error al registrar el driver de MySQL: " + ex);
             }
-            Connection connection = null;
+           
             // Database connect
             // Conectamos con la base de datos
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://34.70.245.154:3306/avanzada",
-                    "root", "");
+                    "jdbc:mysql://34.70.245.154:3306/avanzada?useSSL=false",
+                    "root", "5MMvznviaall8mkr");
             boolean valid = connection.isValid(50000);
             System.out.println(valid ? "TEST OK" : "TEST FAIL");
         } catch (java.sql.SQLException sqle) {
             System.out.println("Error: " + sqle);
         }
-
+        return connection;
     }
 
 }
